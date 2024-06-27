@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Split Money Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Split Results</h1>
+    <ul>
+        {% for debtor, creditor, amount in transactions %}
+            <li>{{ debtor }} pays {{ creditor }} ${{ amount }}</li>
+        {% endfor %}
+    </ul>
+    <a href="/">Start Over</a>
+</body>
+</html>

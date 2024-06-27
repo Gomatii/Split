@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Split Money App</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <!-- Input Form Column -->
+            <div class="col-md-6">
+                <h1 class="my-4">Split Money App</h1>
+                <form method="POST" id="split-form">
+                    <div class="form-group">
+                        <label for="num_people">Number of People:</label>
+                        <input type="number" class="form-control" id="num_people" name="num_people" required>
+                    </div>
+                    <div id="contributors">
+                        <!-- Contributors will be added here dynamically -->
+                    </div>
+                    <button type="button" class="btn btn-primary my-2" onclick="addContributors()">Add Contributors</button>
+                    <button type="submit" class="btn btn-success my-2">Calculate Split</button>
+                </form>
+            </div>
+
+            <!-- Results Column -->
+            <div class="col-md-6">
+                {% if transactions %}
+                <h2 class="my-4">Split Results</h2>
+                <br>
+                <ul class="list-group">
+                    {% for debtor, creditor, amount in transactions %}
+                        <li class="list-group-item">{{ debtor }} pays {{ creditor }} ${{ amount }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function addContributors() {
+            const numPeople = document.getElementById('num_people').value;
+            const contributorsDiv = document.getElementById('contributors');
+            contributorsDiv.innerHTML = '';
+
+            for (let i = 0; i < numPeople; i++) {
+                contributorsDiv.innerHTML += `
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="name_${i}">Name:</label>
+                            <input type="text" class="form-control" id="name_${i}" name="name_${i}" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="amount_${i}">Amount:</label>
+                            <input type="number" class="form-control" id="amount_${i}" name="amount_${i}" step="0.01" required>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>
